@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — College Q&A</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div id="loginContainer" class="login-container">
+        <div class="login-panel">
+            <div class="login-header">
+                <h1>Admin Panel</h1>
+                <p>College Q&A Management System</p>
+            </div>
+            <form onsubmit="handleAdminLogin(event)" class="login-form">
+                <div class="form-group">
+                    <label for="adminEmail">Admin Email</label>
+                    <input type="email" id="adminEmail" placeholder="admin@college.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                <p class="login-hint">Default: admin@college.com / admin123</p>
+            </form>
+        </div>
+    </div>
+
+    <div id="adminPanel" class="admin-panel" hidden>
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Admin Panel</h2>
+                <button type="button" class="sidebar-close" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" data-tab="dashboard" class="nav-item active" onclick="switchTab(event, 'dashboard')">📊 Dashboard</a>
+                <a href="#" data-tab="users" class="nav-item" onclick="switchTab(event, 'users')">👥 Users</a>
+                <a href="#" data-tab="questions" class="nav-item" onclick="switchTab(event, 'questions')">❓ Questions</a>
+                <a href="#" data-tab="answers" class="nav-item" onclick="switchTab(event, 'answers')">💬 Answers</a>
+                <a href="#" data-tab="shop" class="nav-item" onclick="switchTab(event, 'shop')">🛍️ Shop Items</a>
+                <a href="#" data-tab="purchases" class="nav-item" onclick="switchTab(event, 'purchases')">🎁 Redemptions</a>
+            </nav>
+            <button type="button" class="btn btn-ghost btn-block logout-btn" onclick="handleAdminLogout()">Log out</button>
+        </aside>
+
+        <main class="admin-main">
+            <!-- Dashboard Tab -->
+            <section id="dashboard" class="tab-content active">
+                <div class="tab-header">
+                    <h1>Dashboard</h1>
+                    <p>Overview of platform activity</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="statUsers">0</div>
+                            <div class="stat-label">Total Users</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">❓</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="statQuestions">0</div>
+                            <div class="stat-label">Total Questions</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💬</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="statAnswers">0</div>
+                            <div class="stat-label">Total Answers</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎁</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="statRedemptions">0</div>
+                            <div class="stat-label">Total Redemptions</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users Tab -->
+            <section id="users" class="tab-content">
+                <div class="tab-header">
+                    <h1>User Management</h1>
+                    <p>Manage platform users</p>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Semester</th>
+                                <th>Points</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersList"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Questions Tab -->
+            <section id="questions" class="tab-content">
+                <div class="tab-header">
+                    <h1>Question Management</h1>
+                    <p>Manage posted questions</p>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Asked by</th>
+                                <th>Semester</th>
+                                <th>Answers</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="questionsList"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Answers Tab -->
+            <section id="answers" class="tab-content">
+                <div class="tab-header">
+                    <h1>Answer Management</h1>
+                    <p>Manage posted answers</p>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Question</th>
+                                <th>Answered by</th>
+                                <th>Correct</th>
+                                <th>Points</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="answersList"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Shop Tab -->
+            <section id="shop" class="tab-content">
+                <div class="tab-header">
+                    <div>
+                        <h1>Shop Management</h1>
+                        <p>Manage reward shop items</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="showCreateItemModal()">+ Add Item</button>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Points Required</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shopList"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Purchases Tab -->
+            <section id="purchases" class="tab-content">
+                <div class="tab-header">
+                    <h1>Redemption History</h1>
+                    <p>Track user purchases and rewards redeemed</p>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Item</th>
+                                <th>Points Spent</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="purchasesList"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- User Edit Modal -->
+    <div id="userEditModal" class="modal" hidden role="dialog" aria-modal="true">
+        <div class="modal-backdrop" onclick="closeUserEditModal()"></div>
+        <div class="modal-dialog">
+            <button type="button" class="modal-close" onclick="closeUserEditModal()" aria-label="Close">&times;</button>
+            <h2>Edit User Points</h2>
+            <form onsubmit="handleUpdateUserPoints(event)">
+                <div class="form-group">
+                    <label for="editUserId">User ID</label>
+                    <input type="text" id="editUserId" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="editUserPoints">Points</label>
+                    <input type="number" id="editUserPoints" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Shop Item Modal -->
+    <div id="itemModal" class="modal" hidden role="dialog" aria-modal="true">
+        <div class="modal-backdrop" onclick="closeItemModal()"></div>
+        <div class="modal-dialog">
+            <button type="button" class="modal-close" onclick="closeItemModal()" aria-label="Close">&times;</button>
+            <h2 id="itemModalTitle">Create Shop Item</h2>
+            <form onsubmit="handleShopItemSubmit(event)">
+                <input type="hidden" id="itemId">
+                <div class="form-group">
+                    <label for="itemName">Name</label>
+                    <input type="text" id="itemName" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemDescription">Description</label>
+                    <textarea id="itemDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="itemPoints">Points Required</label>
+                    <input type="number" id="itemPoints" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemCategory">Category</label>
+                    <input type="text" id="itemCategory" placeholder="e.g., Academic, Dining">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Save Item</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Q&A — Ask, Learn & Earn Rewards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-brand" onclick="event.preventDefault(); navigateTo('#home')">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="28" height="28" rx="8" fill="currentColor" fill-opacity="0.15"/>
+                        <path d="M8 9h12v2H8V9zm0 4h8v2H8v-2zm0 4h10v2H8v-2z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-text">
+                    <span class="brand-name">College Q&A</span>
+                    <span class="brand-tagline">Learn together</span>
+                </span>
+            </a>
+
+            <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link" data-nav="home">Home</a>
+                <a href="#questions" class="nav-link" data-nav="questions">Questions</a>
+                <a href="#shop" class="nav-link" data-nav="shop">Rewards</a>
+                <a href="#leaderboard" class="nav-link" data-nav="leaderboard">Leaderboard</a>
+
+                <div id="userMenu" class="user-menu" hidden>
+                    <span id="navPoints" class="nav-points" hidden></span>
+                    <a href="#profile" class="nav-link" data-nav="profile">Profile</a>
+                    <button type="button" id="logoutBtn" class="btn btn-ghost btn-sm" hidden>Log out</button>
+                </div>
+
+                <div id="authMenu" class="auth-menu">
+                    <button type="button" id="loginBtn" class="btn btn-ghost btn-sm">Log in</button>
+                    <button type="button" id="signupBtn" class="btn btn-primary btn-sm">Sign up</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section id="home" class="section">
+                <div class="hero">
+                    <div class="hero-grid">
+                        <div class="hero-content">
+                            <span class="hero-eyebrow">Academic community platform</span>
+                            <h1 class="hero-title">Ask questions. Share knowledge. <span class="text-gradient">Earn rewards.</span></h1>
+                            <p class="hero-description">Connect with students in your semester, get clear answers from peers, and redeem points for real campus benefits.</p>
+                            <div class="hero-actions" id="heroActions">
+                                <button type="button" class="btn btn-primary btn-large" onclick="showAuthModal()">Get started free</button>
+                                <button type="button" class="btn btn-outline btn-large" onclick="navigateTo('#questions')">Browse questions</button>
+                            </div>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalQuestions">0</div>
+                                <div class="stat-label">Questions asked</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalAnswers">0</div>
+                                <div class="stat-label">Answers shared</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalUsers">0</div>
+                                <div class="stat-label">Active students</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="section-intro">
+                        <h2 class="section-title">Why students choose us</h2>
+                        <p class="section-subtitle">Everything you need to collaborate, learn faster, and stay motivated.</p>
+                    </div>
+                    <div class="features">
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">📚</div>
+                            <h3>Ask with context</h3>
+                            <p>Post semester-specific questions with subjects so the right peers can help.</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">💡</div>
+                            <h3>Help your peers</h3>
+                            <p>Share quality answers, build reputation, and climb the leaderboard.</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">⭐</div>
+                            <h3>Earn points</h3>
+                            <p>Get rewarded when your answers are marked correct by question authors.</p>
+                        </article>
+                        <article class="feature-card">
+                            <div class="feature-icon" aria-hidden="true">🎁</div>
+                            <h3>Redeem rewards</h3>
+                            <p>Exchange points for vouchers, lab access, study materials, and more.</p>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="cta-banner">
+                    <div class="cta-inner">
+                        <h2>Ready to join your campus community?</h2>
+                        <p>Create a free account in under a minute and start learning with thousands of students.</p>
+                        <button type="button" class="btn btn-white btn-large" onclick="showAuthModal()">Create free account</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="questions" class="section" hidden>
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Questions &amp; Answers</h1>
+                        <p class="page-subtitle">Browse discussions by semester or ask something new.</p>
+                    </div>
+                    <button type="button" id="newQuestionBtn" class="btn btn-primary" hidden onclick="showNewQuestionModal()">Ask question</button>
+                </div>
+
+                <div class="filter-bar">
+                    <label for="semesterFilter">Semester</label>
+                    <select id="semesterFilter" onchange="filterQuestions()">
+                        <option value="">All semesters</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+                    </select>
+                </div>
+
+                <div id="questionsList" class="questions-list"></div>
+            </section>
+
+            <section id="questionDetail" class="section" hidden>
+                <button type="button" class="btn btn-ghost back-btn" onclick="goBackToQuestions()">
+                    <span aria-hidden="true">←</span> Back to questions
+                </button>
+                <div id="questionDetailContent" class="panel question-detail"></div>
+            </section>
+
+            <section id="shop" class="section" hidden>
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Rewards shop</h1>
+                        <p class="page-subtitle">Redeem your points for campus perks and benefits.</p>
+                    </div>
+                    <div id="pointsDisplay" class="points-pill" hidden>
+                        <span class="points-pill-label">Your balance</span>
+                        <strong><span id="userPoints">0</span> pts</strong>
+                    </div>
+                </div>
+
+                <div id="shopItems" class="shop-grid"></div>
+
+                <div id="purchaseHistory" class="panel history-panel" hidden>
+                    <h3 class="panel-heading">Redemption history</h3>
+                    <div id="historyList" class="history-list"></div>
+                </div>
+            </section>
+
+            <section id="leaderboard" class="section" hidden>
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Leaderboard</h1>
+                        <p class="page-subtitle">Top contributors ranked by points earned.</p>
+                    </div>
+                </div>
+                <div id="leaderboardTable" class="panel leaderboard-panel"></div>
+            </section>
+
+            <section id="profile" class="section" hidden>
+                <button type="button" class="btn btn-ghost back-btn" onclick="goBackHome()">
+                    <span aria-hidden="true">←</span> Back to home
+                </button>
+                <div id="profileContent" class="panel profile-section"></div>
+            </section>
+        </div>
+    </main>
+
+    <div id="authModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+        <div class="modal-backdrop" onclick="closeAuthModal()"></div>
+        <div class="modal-dialog">
+            <button type="button" class="modal-close" onclick="closeAuthModal()" aria-label="Close">&times;</button>
+            <div id="loginForm" class="auth-form">
+                <h2 id="authModalTitle">Welcome back</h2>
+                <p class="modal-subtitle">Sign in to ask questions and earn rewards.</p>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="you@college.edu" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                    <p class="form-footer">No account? <a href="#" onclick="event.preventDefault(); switchToSignup()">Create one</a></p>
+                </form>
+            </div>
+            <div id="signupForm" class="auth-form" hidden>
+                <h2>Join the community</h2>
+                <p class="modal-subtitle">Start earning points by helping fellow students.</p>
+                <form onsubmit="handleSignup(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="signupUsername">Username</label>
+                            <input type="text" id="signupUsername" placeholder="jane_doe" required autocomplete="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="signupSemester">Semester</label>
+                            <select id="signupSemester" required>
+                                <option value="">Select</option>
+                                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                                <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                <option value="7">7</option><option value="8">8</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="you@college.edu" required autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Min. 6 characters" required autocomplete="new-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Create account</button>
+                    <p class="form-footer">Already registered? <a href="#" onclick="event.preventDefault(); switchToLogin()">Sign in</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="newQuestionModal" class="modal" hidden role="dialog" aria-modal="true">
+        <div class="modal-backdrop" onclick="closeNewQuestionModal()"></div>
+        <div class="modal-dialog modal-dialog-lg">
+            <button type="button" class="modal-close" onclick="closeNewQuestionModal()" aria-label="Close">&times;</button>
+            <h2>Ask a question</h2>
+            <p class="modal-subtitle">Be specific so others can give you a helpful answer.</p>
+            <form onsubmit="handleNewQuestion(event)">
+                <div class="form-group">
+                    <label for="questionTitle">Title</label>
+                    <input type="text" id="questionTitle" placeholder="e.g. How to solve this integral?" required>
+                </div>
+                <div class="form-group">
+                    <label for="questionDescription">Description</label>
+                    <textarea id="questionDescription" placeholder="Include context, what you've tried, and where you're stuck." rows="4" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="questionSemester">Semester</label>
+                        <select id="questionSemester" required>
+                            <option value="">Select</option>
+                            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                            <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                            <option value="7">7</option><option value="8">8</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="questionSubject">Subject <span class="label-optional">(optional)</span></label>
+                        <input type="text" id="questionSubject" placeholder="Mathematics, Physics…">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Post question</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="answerModal" class="modal" hidden role="dialog" aria-modal="true">
+        <div class="modal-backdrop" onclick="closeAnswerModal()"></div>
+        <div class="modal-dialog">
+            <button type="button" class="modal-close" onclick="closeAnswerModal()" aria-label="Close">&times;</button>
+            <h2>Post your answer</h2>
+            <p class="modal-subtitle">Write a clear, step-by-step explanation when possible.</p>
+            <form onsubmit="handlePostAnswer(event)">
+                <div class="form-group">
+                    <label for="answerContent">Answer</label>
+                    <textarea id="answerContent" placeholder="Share your solution or explanation…" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit answer</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="brand-name">College Q&A</span>
+                <p>Empowering students through peer learning and meaningful rewards.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#home" onclick="event.preventDefault(); navigateTo('#home')">Home</a>
+                <a href="#questions" onclick="event.preventDefault(); navigateTo('#questions')">Questions</a>
+                <a href="#shop" onclick="event.preventDefault(); navigateTo('#shop')">Rewards</a>
+                <a href="#leaderboard" onclick="event.preventDefault(); navigateTo('#leaderboard')">Leaderboard</a>
+            </div>
+        </div>
+        <p class="footer-copy">&copy; 2026 College Q&A Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
