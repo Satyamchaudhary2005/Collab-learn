@@ -68,9 +68,13 @@ Visit: `http://localhost:8000`
 | 📚 Ask Questions | Questions → Ask New Question |
 | 💡 Answer | Click question → Post Answer |
 | ⭐ Earn Points | Get your answer marked correct |
+| 🏅 Earn Badges | Contribute and unlock achievements |
+| 🔖 Bookmark | Click bookmark icon on any question |
+| 👍 Vote on Answers | Upvote/downvote helpful answers |
 | 🎁 Redeem Rewards | Rewards Shop → Redeem Now |
 | 🏆 See Rankings | Leaderboard tab |
 | 👤 Your Stats | Click Profile |
+| 🌙 Dark Mode | Toggle theme in navigation bar
 
 ## Troubleshooting
 

@@ -11,6 +11,17 @@ A full-stack web application for college students to ask questions, get answers,
 - **Leaderboard**: Compete with peers and see top contributors
 - **User Profiles**: Track your questions, answers, and points
 - **Semester Filtering**: Filter questions by semester for better organization
+- **Search**: Search questions by title, description, or subject
+- **Pagination**: Navigate through questions and leaderboard with pagination
+- **Answer Voting**: Upvote/downvote answers
+- **Bookmarks**: Save questions to revisit later
+- **Badges & Achievements**: Earn badges for contributions
+- **Delete Your Questions**: Delete your own questions (cleans up all related data)
+- **Delete Your Answers**: Delete your own answers
+- **Password Reset**: Forgot password flow with secure token
+- **Dark Mode**: Toggle dark/light theme
+- **Sound Effects**: Audio feedback for actions
+- **Admin Panel**: Full admin interface for managing users, questions, answers, and shop
 - **Authentication**: Secure login and registration system
 
 ## Project Structure
@@ -108,33 +119,62 @@ college-qa-platform/
 - Rankings are based on total points earned
 - Gold, Silver, and Bronze badges for top 3
 
-## API Endpoints
+## API Endpoints (43 Total)
 
-### Authentication
+### Authentication (5)
 - `POST /api/auth/register` - Create new account
 - `POST /api/auth/login` - Login user
+- `POST /api/auth/forgot-password` - Request password reset token
+- `POST /api/auth/reset-password` - Reset password with token
+- `GET /api/auth/verify-reset-token/:token` - Check if reset token is valid
 
-### Questions
-- `GET /api/questions` - Get all questions (with optional semester filter)
-- `GET /api/questions/:id` - Get specific question with answers
+### Questions (7)
+- `GET /api/questions` - Get all questions (with optional semester filter, search, pagination)
+- `GET /api/questions/:id` - Get specific question with answers & vote counts
 - `POST /api/questions` - Create new question (requires auth)
-- `DELETE /api/questions/:id` - Delete question (requires auth)
+- `DELETE /api/questions/:id` - Delete question (requires auth, cleans up related data)
+- `POST /api/questions/:id/bookmark` - Bookmark a question (requires auth)
+- `DELETE /api/questions/:id/bookmark` - Remove bookmark (requires auth)
+- `GET /api/questions/:id/bookmark/check` - Check if bookmarked
 
-### Answers
+### Answers (6)
+- `GET /api/answers` - Get all answers
 - `POST /api/answers` - Post answer (requires auth)
 - `PUT /api/answers/:id/mark-correct` - Mark answer as correct (requires auth)
 - `DELETE /api/answers/:id` - Delete answer (requires auth)
+- `POST /api/answers/:id/vote` - Vote on answer (up/down, requires auth)
+- `GET /api/answers/:id/votes` - Get vote counts for an answer
 
-### Shop
+### Shop (3)
 - `GET /api/shop/items` - Get all shop items
 - `POST /api/shop/redeem` - Redeem an item (requires auth)
 - `GET /api/shop/history` - Get user's redemption history (requires auth)
 
-### Users
+### Users (7)
 - `GET /api/users/profile` - Get current user profile (requires auth)
 - `GET /api/users/questions` - Get user's questions (requires auth)
 - `GET /api/users/answers` - Get user's answers (requires auth)
-- `GET /api/users/leaderboard` - Get top contributors
+- `GET /api/users/leaderboard` - Get top contributors (with pagination)
+- `GET /api/users/badges` - Get user's earned badges (requires auth)
+- `GET /api/users/bookmarks` - Get user's bookmarked questions (requires auth)
+- `POST /api/users/check-badges` - Manually check & award badges (requires auth)
+
+### Admin (15)
+- `POST /api/admin/login` - Admin login
+- `GET /api/admin/stats` - Get platform statistics
+- `GET /api/admin/users` - Get all users
+- `GET /api/admin/users/:id` - Get specific user
+- `PUT /api/admin/users/:id/points` - Update user points
+- `DELETE /api/admin/users/:id` - Delete user
+- `GET /api/admin/questions` - Get all questions
+- `DELETE /api/admin/questions/:id` - Delete question & answers
+- `GET /api/admin/answers` - Get all answers
+- `DELETE /api/admin/answers/:id` - Delete answer
+- `GET /api/admin/shop` - Get all shop items
+- `POST /api/admin/shop` - Create shop item
+- `PUT /api/admin/shop/:id` - Update shop item
+- `DELETE /api/admin/shop/:id` - Delete shop item
+- `GET /api/admin/purchases` - Get redemption history
 
 ## Default Shop Items
 
@@ -199,14 +239,11 @@ The following items are available in the shop:
 
 - [ ] Email notifications for answered questions
 - [ ] Real-time notifications
-- [ ] User reputation badges
-- [ ] Question search functionality
 - [ ] Comment threads on answers
-- [ ] Admin dashboard
-- [ ] Question categories
-- [ ] Voting system for answers
 - [ ] User messaging system
 - [ ] Mobile app version
+- [ ] File/image uploads for questions
+- [ ] Rich text editor for answers
 
 ## License
 

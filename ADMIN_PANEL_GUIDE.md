@@ -154,6 +154,10 @@ The admin panel is fully responsive:
 - **Tablet (480-768px)**: Collapsible sidebar with toggle button
 - **Mobile (<480px)**: Hamburger menu, optimized table layout
 
+## Badge Tracking
+
+The admin panel displays platform statistics including total badges awarded. Admins can review user activity that contributed to badge achievements.
+
 ## Keyboard Shortcuts (Future Enhancement)
 
 Currently the panel supports:

@@ -81,6 +81,22 @@ Your session will be saved automatically!
 - Getting marked as correct by asker
 - Default: 50 points per correct answer
 
+### Searching Questions
+
+Use the search bar to find questions by title, description, or subject. Results update as you type.
+
+### Bookmarking Questions
+
+Click the bookmark icon on any question to save it for later. Access your bookmarked questions from your profile.
+
+### Voting on Answers
+
+Upvote or downvote answers to highlight quality content. Click again to toggle/remove your vote.
+
+### Deleting Your Own Questions
+
+As the question author, you can delete your question with a single click. This also removes all associated answers, votes, and bookmarks.
+
 ### Question Lifecycle
 
 ```
@@ -225,6 +241,14 @@ The leaderboard shows the top contributors to the platform, ranked by total poin
 - Correct answers highlighted
 - Points earned shown
 
+**My Badges:**
+- View all earned badges
+- See badge names, descriptions, and award dates
+
+**My Bookmarks:**
+- Access all bookmarked questions
+- Quick navigation to saved content
+
 ### Profile Tips
 
 - ✅ Keep your profile updated
@@ -234,7 +258,30 @@ The leaderboard shows the top contributors to the platform, ranked by total poin
 
 ---
 
+## 🎨 Display Settings
+
+### Dark Mode
+
+Toggle between light and dark themes using the 🌙/☀️ button in the navigation bar.
+
+Your preference is saved in your browser for next time.
+
+### Sound Effects
+
+Audio feedback plays for key actions like earning points, receiving badges, and posting content.
+
+---
+
 ## 🔐 Account Management
+
+### Password Reset
+
+Forgot your password? No problem:
+1. Click "Login" → "Forgot Password?" link
+2. Enter your registered email address
+3. A reset token will be shown (in development) or sent to your email
+4. Use the token to reset your password securely
+5. Log in with your new password
 
 ### Staying Secure
 
@@ -249,6 +296,24 @@ The leaderboard shows the top contributors to the platform, ranked by total poin
 - ✅ Log out on shared computers
 - ✅ Keep your browser updated
 - ✅ Enable security features
+
+### Admin Panel
+
+Administrators have access to the admin panel at:
+```
+http://localhost:5000/admin.html
+```
+Default credentials:
+- **Email**: `admin@college.com`
+- **Password**: `admin123`
+
+**Admin Features:**
+- Dashboard with platform statistics
+- User management (view, edit points, delete)
+- Question moderation (view, delete)
+- Answer moderation (view, delete)
+- Shop management (CRUD for items)
+- Redemption history tracking
 
 ### Logging Out
 
@@ -286,6 +351,30 @@ Answer Question → Get Marked Correct → +50 Points → Redeem or Earn More
 | 250 points | Active Contributor |
 | 500 points | Expert Answerer |
 | 1000+ points | Top Contributor |
+
+### Badges & Achievements
+
+Earn badges as you contribute to the platform. Badges are automatically awarded when you reach milestones.
+
+**Available Badges:**
+| Badge | Requirement |
+|-------|------------|
+| 🏅 First Question | Ask your first question |
+| 🏅 Question Master | Ask 5 questions |
+| 🏅 Question Guru | Ask 10 questions |
+| 🏅 First Answer | Post your first answer |
+| 🏅 Answer Pro | Post 10 answers |
+| 🏅 Answer Expert | Post 25 answers |
+| 🏅 Correct Answer | Get your first correct answer |
+| 🏅 Top Answerer | Get 5 correct answers |
+| 🏅 Elite Answerer | Get 15 correct answers |
+| 🏅 Point Collector | Earn 100 points |
+| 🏅 Point Hoarder | Earn 500 points |
+| 🏅 Point Millionaire | Earn 1000 points |
+| 🏅 Subject Explorer | Answer questions in 3+ subjects |
+| 🏅 Leaderboard Star | Reach top 3 on leaderboard |
+
+When you earn a new badge, a celebratory toast notification will appear!
 
 ### Competing Fairly
 

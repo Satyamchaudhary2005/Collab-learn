@@ -34,12 +34,50 @@ const PORT = process.env.PORT || 3000;
 
 ### Points per Correct Answer
 
-Edit `backend/routes/answers.js` in the `markCorrect` function:
+Edit `backend/routes/answers.js` in the `markCorrect` route:
 
 ```javascript
 const pointsToAward = points || 50; // Default 50 points
 // Change to:
 const pointsToAward = points || 100; // 100 points per correct answer
+```
+
+### Sound Effects
+
+Sound effects can be enabled/disabled by editing `frontend/js/app.js`:
+
+```javascript
+const soundEnabled = true; // Change to false to disable
+```
+
+You can also replace the sound files in `frontend/sounds/` with your own `.mp3` files.
+
+### Dark Mode Default
+
+To change the default theme, edit `frontend/js/app.js`:
+
+```javascript
+// Change default from 'light' to 'dark'
+if (!localStorage.getItem('theme')) {
+    localStorage.setItem('theme', 'light'); // Change to 'dark'
+}
+```
+
+### Badge Thresholds
+
+Badge requirements are defined in `backend/controllers/badge.js`. To customize:
+
+```javascript
+// Edit threshold values
+const BADGE_THRESHOLDS = {
+    FIRST_QUESTION: 1,
+    QUESTION_MASTER: 5,
+    QUESTION_GURU: 10,
+    FIRST_ANSWER: 1,
+    ANSWER_PRO: 10,
+    ANSWER_EXPERT: 25,
+    // ... change any thresholds here
+};
 ```
 
 ### Custom Shop Items
@@ -304,14 +342,41 @@ To create a mobile app version:
 4. Add offline support
 5. Add push notifications
 
-## Admin Panel (Future Enhancement)
+## Admin Panel
 
-To add admin features:
+The platform includes a full admin panel with these features:
 
-1. Add admin field to users table
-2. Create `/api/admin/*` endpoints
-3. Add admin verification middleware
-4. Create admin dashboard page
+- Dashboard with platform statistics
+- User management (view, edit points, delete)
+- Question moderation (view, delete)
+- Answer moderation (view, delete)
+- Shop management (CRUD for items)
+- Redemption history tracking
+
+### Accessing the Admin Panel
+
+Navigate to:
+```
+http://localhost:5000/admin.html
+```
+
+Default credentials:
+- **Email**: `admin@college.com`
+- **Password**: `admin123`
+
+### Customizing Admin Login
+
+Edit `backend/routes/admin.js`:
+
+```javascript
+const ADMIN_EMAIL = 'admin@college.com';
+const ADMIN_PASSWORD = 'admin123';
+// Change to your own credentials
+```
+
+### Customizing Admin Stats
+
+Admin dashboard stats are generated in `backend/routes/admin.js` under the `/stats` endpoint. Edit the queries to change what's displayed.
 
 ## Performance Optimization
 

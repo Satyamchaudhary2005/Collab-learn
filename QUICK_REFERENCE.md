@@ -72,11 +72,11 @@ Then open: `http://localhost:8000`
 
 | Metric | Value |
 |--------|-------|
-| Total Lines of Code | 2500+ |
-| Total Documentation | 3000+ |
-| API Endpoints | 18 |
-| Database Tables | 5 |
-| Features | 20+ |
+| Total Lines of Code | 3000+ |
+| Total Documentation | 3500+ |
+| API Endpoints | 43 |
+| Database Tables | 9 |
+| Features | 30+ |
 | Shop Items | 6 |
 | Semesters | 1-8 |
 | Setup Time | 5 min |
@@ -97,31 +97,60 @@ Then open: `http://localhost:8000`
 
 ## 🎯 API Endpoints Summary
 
-### Auth (2)
+### Auth (5)
 - `POST /api/auth/register` - Sign up
 - `POST /api/auth/login` - Login
+- `POST /api/auth/forgot-password` - Request password reset
+- `POST /api/auth/reset-password` - Reset password with token
+- `GET /api/auth/verify-reset-token/:token` - Verify token validity
 
-### Questions (4)
-- `GET /api/questions` - View all
-- `GET /api/questions/:id` - View detail
+### Questions (7)
+- `GET /api/questions` - View all (with search & pagination)
+- `GET /api/questions/:id` - View detail with votes
 - `POST /api/questions` - Create
-- `DELETE /api/questions/:id` - Delete
+- `DELETE /api/questions/:id` - Delete (author only)
+- `POST /api/questions/:id/bookmark` - Bookmark question
+- `DELETE /api/questions/:id/bookmark` - Remove bookmark
+- `GET /api/questions/:id/bookmark/check` - Check bookmark
 
-### Answers (3)
+### Answers (6)
 - `POST /api/answers` - Post answer
 - `PUT /api/answers/:id/mark-correct` - Mark correct
-- `DELETE /api/answers/:id` - Delete
+- `DELETE /api/answers/:id` - Delete (author only)
+- `POST /api/answers/:id/vote` - Upvote/downvote
+- `GET /api/answers/:id/votes` - Get vote counts
+- `GET /api/answers` - View all answers
 
 ### Shop (3)
 - `GET /api/shop/items` - View items
 - `POST /api/shop/redeem` - Redeem
 - `GET /api/shop/history` - View history
 
-### Users (6)
+### Users (7)
 - `GET /api/users/profile` - My profile
 - `GET /api/users/questions` - My questions
 - `GET /api/users/answers` - My answers
-- `GET /api/users/leaderboard` - Rankings
+- `GET /api/users/leaderboard` - Rankings (paginated)
+- `GET /api/users/badges` - My badges
+- `GET /api/users/bookmarks` - My bookmarks
+- `POST /api/users/check-badges` - Check for new badges
+
+### Admin (15)
+- `POST /api/admin/login` - Admin login
+- `GET /api/admin/stats` - Platform stats
+- `GET /api/admin/users` - All users
+- `GET /api/admin/users/:id` - User details
+- `PUT /api/admin/users/:id/points` - Update points
+- `DELETE /api/admin/users/:id` - Delete user
+- `GET /api/admin/questions` - All questions
+- `DELETE /api/admin/questions/:id` - Delete question
+- `GET /api/admin/answers` - All answers
+- `DELETE /api/admin/answers/:id` - Delete answer
+- `GET /api/admin/shop` - All shop items
+- `POST /api/admin/shop` - Create item
+- `PUT /api/admin/shop/:id` - Update item
+- `DELETE /api/admin/shop/:id` - Delete item
+- `GET /api/admin/purchases` - Redemption history
 
 ## 💡 Pro Tips
 

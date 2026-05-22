@@ -10,18 +10,24 @@
    - Secure login with JWT tokens
    - Password hashing with bcryptjs
    - Token-based request authorization
+   - Forgot/reset password with secure tokens
 
 2. **Questions Management**
    - Create, read, and delete questions
    - Filter by semester and subject
+   - Search by title, description, or subject
+   - Pagination support
    - Track question asker information
    - Full question history
+   - Bookmark/unbookmark questions
 
 3. **Answers Management**
    - Post answers to questions
    - Mark answers as correct
    - Automatic points awarding system
    - Answer history tracking
+   - Upvote/downvote voting system
+   - Answer deletion by author
 
 4. **Points & Rewards System**
    - Award 50 points for correct answers (customizable)
@@ -37,9 +43,21 @@
 
 6. **User Profiles & Leaderboard**
    - User profile with stats
-   - Leaderboard with top 50 contributors
+   - Leaderboard with pagination
    - Points-based ranking
    - Medal rankings (Gold, Silver, Bronze)
+
+7. **Badges & Achievements**
+   - Automatic badge awarding
+   - Badge categories (questioner, answerer, point milestones, etc.)
+   - Visual badge display on profile
+
+8. **Admin Panel**
+   - Full CRUD for users
+   - Question & answer moderation
+   - Shop item management
+   - Redemption tracking
+   - Platform statistics dashboard
 
 #### Database Schema:
 - **users** table - User accounts with points
@@ -47,6 +65,10 @@
 - **answers** table - User responses
 - **shop_items** table - Reward catalog
 - **purchases** table - Redemption records
+- **badges** table - User achievements
+- **bookmarks** table - Saved questions
+- **answer_votes** table - Upvote/downvote tracking
+- **password_resets** table - Secure password reset tokens
 
 ### Frontend (HTML5 + CSS3 + Vanilla JavaScript)
 
@@ -104,33 +126,62 @@
 - Modal dialogs
 - Form validation
 
-### API Endpoints (18 Total)
+### API Endpoints (43 Total)
 
-**Authentication (2)**
+**Authentication (5)**
 - POST /api/auth/register
 - POST /api/auth/login
+- POST /api/auth/forgot-password
+- POST /api/auth/reset-password
+- GET /api/auth/verify-reset-token/:token
 
-**Questions (4)**
-- GET /api/questions (with filters)
+**Questions (7)**
+- GET /api/questions (with filters, search, pagination)
 - GET /api/questions/:id
 - POST /api/questions
 - DELETE /api/questions/:id
+- POST /api/questions/:id/bookmark
+- DELETE /api/questions/:id/bookmark
+- GET /api/questions/:id/bookmark/check
 
-**Answers (3)**
+**Answers (6)**
 - POST /api/answers
 - PUT /api/answers/:id/mark-correct
 - DELETE /api/answers/:id
+- POST /api/answers/:id/vote
+- GET /api/answers/:id/votes
+- GET /api/answers
 
 **Shop (3)**
 - GET /api/shop/items
 - POST /api/shop/redeem
 - GET /api/shop/history
 
-**Users (6)**
+**Users (7)**
 - GET /api/users/profile
 - GET /api/users/questions
 - GET /api/users/answers
 - GET /api/users/leaderboard
+- GET /api/users/badges
+- GET /api/users/bookmarks
+- POST /api/users/check-badges
+
+**Admin (15)**
+- POST /api/admin/login
+- GET /api/admin/stats
+- GET /api/admin/users
+- GET /api/admin/users/:id
+- PUT /api/admin/users/:id/points
+- DELETE /api/admin/users/:id
+- GET /api/admin/questions
+- DELETE /api/admin/questions/:id
+- GET /api/admin/answers
+- DELETE /api/admin/answers/:id
+- GET /api/admin/shop
+- POST /api/admin/shop
+- PUT /api/admin/shop/:id
+- DELETE /api/admin/shop/:id
+- GET /api/admin/purchases
 
 ## 📁 Project Structure
 
@@ -141,20 +192,26 @@
 │   ├── package.json
 │   ├── .env
 │   ├── college_qa.db (auto-created)
+│   ├── controllers/
+│   │   └── badge.js (badge logic)
 │   ├── middleware/
 │   │   └── auth.js (35 lines)
-│   └── routes/ (5 files, 400+ lines)
+│   └── routes/ (6 files, 800+ lines)
 │       ├── auth.js
 │       ├── questions.js
 │       ├── answers.js
 │       ├── shop.js
-│       └── users.js
+│       ├── users.js
+│       └── admin.js
 ├── frontend/
 │   ├── index.html (400 lines)
+│   ├── admin.html (admin panel)
 │   ├── css/
-│   │   └── styles.css (800+ lines)
+│   │   ├── styles.css (1500+ lines)
+│   │   └── admin.css (admin styling)
 │   └── js/
-│       └── app.js (600+ lines)
+│       ├── app.js (900+ lines)
+│       └── admin.js (admin logic)
 ├── README.md (Comprehensive guide)
 ├── SETUP.md (Detailed setup instructions)
 └── QUICKSTART.md (5-minute quickstart)
@@ -181,6 +238,17 @@
 ✅ Toast Notifications
 ✅ Modal Dialogs
 ✅ Form Validation
+✅ Search Questions
+✅ Pagination
+✅ Answer Voting (Upvote/Downvote)
+✅ Bookmarking Questions
+✅ Badges & Achievements System
+✅ Password Reset (Forgot/Reset flow)
+✅ Dark Mode
+✅ Sound Effects
+✅ Admin Panel (Full CRUD)
+✅ Delete Questions by Author (with cleanup)
+✅ Delete Answers by Author
 
 ## 🔧 Technology Stack
 

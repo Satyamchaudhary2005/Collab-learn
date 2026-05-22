@@ -23,12 +23,13 @@ This document describes the architecture of the College Q&A Platform.
 ┌──────────────────────────────────────────────────────────────────┐
 │              BACKEND SERVER (Node.js/Express)                    │
 │  ┌──────────────────────────────────────────────────────────┐   │
-│  │ API Routes (18 Endpoints)                               │   │
-│  │ ├── /api/auth (Login/Register)                          │   │
-│  │ ├── /api/questions (CRUD)                               │   │
-│  │ ├── /api/answers (Create/Mark Correct/Delete)          │   │
+│  │ API Routes (43 Endpoints)                               │   │
+│  │ ├── /api/auth (Register/Login/Password Reset)            │   │
+│  │ ├── /api/questions (CRUD/Bookmark/Search/Pagination)     │   │
+│  │ ├── /api/answers (Create/Vote/Mark Correct/Delete)      │   │
 │  │ ├── /api/shop (View Items/Redeem)                       │   │
-│  │ └── /api/users (Profile/Leaderboard)                    │   │
+│  │ ├── /api/users (Profile/Leaderboard/Badges/Bookmarks)   │   │
+│  │ └── /api/admin (Stats/Users/Questions/Answers/Shop)     │   │
 │  └──────────────────────────────────────────────────────────┘   │
 │  ┌──────────────────────────────────────────────────────────┐   │
 │  │ Middleware                                              │   │
@@ -49,12 +50,16 @@ This document describes the architecture of the College Q&A Platform.
 ┌──────────────────────────────────────────────────────────────────┐
 │                    DATABASE (SQLite)                             │
 │  ┌──────────────────────────────────────────────────────────┐   │
-│  │ Tables                                                  │   │
+│  │ Tables (9 total)                                         │   │
 │  │ ├── users (id, username, email, semester, points)      │   │
 │  │ ├── questions (id, user_id, title, description, ...)   │   │
 │  │ ├── answers (id, question_id, user_id, content, ...)   │   │
 │  │ ├── shop_items (id, name, points_required, ...)        │   │
-│  │ └── purchases (id, user_id, item_id, points_spent)     │   │
+│  │ ├── purchases (id, user_id, item_id, points_spent)     │   │
+│  │ ├── badges (id, user_id, badge_name, badge_key, ...)   │   │
+│  │ ├── bookmarks (id, user_id, question_id)               │   │
+│  │ ├── answer_votes (id, user_id, answer_id, vote_type)   │   │
+│  │ └── password_resets (id, user_id, token, expires_at)   │   │
 │  └──────────────────────────────────────────────────────────┘   │
 │  ┌──────────────────────────────────────────────────────────┐   │
 │  │ File: college_qa.db (SQLite Database)                   │   │
@@ -276,6 +281,50 @@ purchases
 ├── item_id (FK → shop_items.id)
 ├── points_spent (INTEGER)
 └── redeemed_at (DATETIME)
+```
+
+### Badges Table
+```
+badges
+├── id (INTEGER PRIMARY KEY)
+├── user_id (FK → users.id)
+├── badge_name (TEXT)
+├── badge_key (TEXT)
+├── description (TEXT)
+├── icon (TEXT)
+└── awarded_at (DATETIME)
+```
+
+### Bookmarks Table
+```
+bookmarks
+├── id (INTEGER PRIMARY KEY)
+├── user_id (FK → users.id)
+├── question_id (FK → questions.id)
+├── created_at (DATETIME)
+└── UNIQUE(user_id, question_id)
+```
+
+### Answer Votes Table
+```
+answer_votes
+├── id (INTEGER PRIMARY KEY)
+├── user_id (FK → users.id)
+├── answer_id (FK → answers.id)
+├── vote_type (TEXT CHECK: 'up' or 'down')
+├── created_at (DATETIME)
+└── UNIQUE(user_id, answer_id)
+```
+
+### Password Resets Table
+```
+password_resets
+├── id (INTEGER PRIMARY KEY)
+├── user_id (FK → users.id)
+├── token (TEXT)
+├── expires_at (DATETIME)
+├── used (INTEGER DEFAULT 0)
+└── created_at (DATETIME)
 ```
 
 ## API Request/Response Flow
