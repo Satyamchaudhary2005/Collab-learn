@@ -74,6 +74,52 @@ function initializeDatabase() {
       insertDefaultShopItems();
     });
 
+    // Badges table
+    db.run(`CREATE TABLE IF NOT EXISTS badges (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      badge_name TEXT NOT NULL,
+      badge_key TEXT NOT NULL DEFAULT '',
+      description TEXT DEFAULT '',
+      icon TEXT DEFAULT '',
+      awarded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    )`);
+
+    // Bookmarks table
+    db.run(`CREATE TABLE IF NOT EXISTS bookmarks (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      question_id INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (question_id) REFERENCES questions(id),
+      UNIQUE(user_id, question_id)
+    )`);
+
+    // Answer votes table
+    db.run(`CREATE TABLE IF NOT EXISTS answer_votes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      answer_id INTEGER NOT NULL,
+      vote_type TEXT CHECK(vote_type IN ('up', 'down')) NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (answer_id) REFERENCES answers(id),
+      UNIQUE(user_id, answer_id)
+    )`);
+
+    // Password reset tokens table
+    db.run(`CREATE TABLE IF NOT EXISTS password_resets (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      token TEXT NOT NULL,
+      expires_at DATETIME NOT NULL,
+      used INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    )`);
+
     // User purchases/redemptions
     db.run(`CREATE TABLE IF NOT EXISTS purchases (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -121,6 +167,17 @@ app.use('/api/answers', answerRoutes);
 app.use('/api/shop', shopRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
+// Catch-all to serve index.html for SPA routing
+app.get('*', (req, res) => {
+  // Only for non-API routes
+  if (!req.path.startsWith('/api/')) {
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+  }
+});
 
 // Make db accessible to routes
 app.locals.db = db;

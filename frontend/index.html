@@ -47,6 +47,8 @@
                     <button type="button" id="loginBtn" class="btn btn-ghost btn-sm">Log in</button>
                     <button type="button" id="signupBtn" class="btn btn-primary btn-sm">Sign up</button>
                 </div>
+
+                <button type="button" id="darkModeToggle" class="btn btn-ghost btn-sm theme-toggle" title="Toggle dark mode">🌙</button>
             </nav>
         </div>
     </header>
@@ -130,21 +132,31 @@
                 </div>
 
                 <div class="filter-bar">
-                    <label for="semesterFilter">Semester</label>
-                    <select id="semesterFilter" onchange="filterQuestions()">
-                        <option value="">All semesters</option>
-                        <option value="1">Semester 1</option>
-                        <option value="2">Semester 2</option>
-                        <option value="3">Semester 3</option>
-                        <option value="4">Semester 4</option>
-                        <option value="5">Semester 5</option>
-                        <option value="6">Semester 6</option>
-                        <option value="7">Semester 7</option>
-                        <option value="8">Semester 8</option>
-                    </select>
+                    <div class="filter-group">
+                        <label for="searchInput">Search</label>
+                        <div class="search-wrapper">
+                            <input type="text" id="searchInput" placeholder="Search questions, subjects..." oninput="debouncedSearch()">
+                            <button type="button" class="search-clear" id="searchClear" onclick="clearSearch()" hidden>&times;</button>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label for="semesterFilter">Semester</label>
+                        <select id="semesterFilter" onchange="filterQuestions()">
+                            <option value="">All semesters</option>
+                            <option value="1">Semester 1</option>
+                            <option value="2">Semester 2</option>
+                            <option value="3">Semester 3</option>
+                            <option value="4">Semester 4</option>
+                            <option value="5">Semester 5</option>
+                            <option value="6">Semester 6</option>
+                            <option value="7">Semester 7</option>
+                            <option value="8">Semester 8</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div id="questionsList" class="questions-list"></div>
+                <div id="questionsPagination" class="pagination" hidden></div>
             </section>
 
             <section id="questionDetail" class="section" hidden>
@@ -182,6 +194,7 @@
                     </div>
                 </div>
                 <div id="leaderboardTable" class="panel leaderboard-panel"></div>
+                <div id="leaderboardPagination" class="pagination" hidden></div>
             </section>
 
             <section id="profile" class="section" hidden>
@@ -210,7 +223,10 @@
                         <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                    <p class="form-footer">No account? <a href="#" onclick="event.preventDefault(); switchToSignup()">Create one</a></p>
+                    <div class="form-footer-row">
+                        <p class="form-footer">No account? <a href="#" onclick="event.preventDefault(); switchToSignup()">Create one</a></p>
+                        <a href="#" class="forgot-link" onclick="event.preventDefault(); showForgotPassword()">Forgot password?</a>
+                    </div>
                 </form>
             </div>
             <div id="signupForm" class="auth-form" hidden>
@@ -243,6 +259,24 @@
                     <button type="submit" class="btn btn-primary btn-block">Create account</button>
                     <p class="form-footer">Already registered? <a href="#" onclick="event.preventDefault(); switchToLogin()">Sign in</a></p>
                 </form>
+            </div>
+            <div id="forgotPasswordForm" class="auth-form" hidden>
+                <h2>Reset password</h2>
+                <p class="modal-subtitle">Enter your email and we'll send a reset link.</p>
+                <form onsubmit="handleForgotPassword(event)">
+                    <div class="form-group">
+                        <label for="forgotEmail">Email</label>
+                        <input type="email" id="forgotEmail" placeholder="you@college.edu" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Send reset link</button>
+                    <p class="form-footer"><a href="#" onclick="event.preventDefault(); switchToLogin()">Back to sign in</a></p>
+                </form>
+                <div id="forgotSuccess" hidden>
+                    <div class="success-message">
+                        <p>If that email is registered, a reset link has been sent.</p>
+                        <button type="button" class="btn btn-primary btn-block" onclick="switchToLogin()">Back to sign in</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
